@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if (usuario.equals(usua)&&contraseña.equals(clav)){
                     Intent ven=new Intent(this, PrincipalMenu.class );
+                    ven.putExtra("usuario", usuario);
+                    startActivityForResult(ven, 1234);
                     startActivity(ven);
                     et1.setText("");
                     et2.setText("");
