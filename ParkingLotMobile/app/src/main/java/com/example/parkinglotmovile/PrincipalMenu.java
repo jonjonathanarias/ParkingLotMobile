@@ -12,6 +12,5 @@ public class PrincipalMenu extends AppCompatActivity {
         setContentView(R.layout.activity_principal_menu);
         String Title= "Bienvenidos a la Aplicacion";
         this.setTitle(Title);
-        return false;
     }
 }

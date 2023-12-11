@@ -47,7 +47,7 @@ public class RegistrarDatos extends AppCompatActivity {
         }
 
     }
-    //-----------metodo vara validar si el capo esta vacio------------
+    //-----------metodo vara validar si el campo esta vacio------------
     public boolean isNull(){
         if (etUsuario.equals("")&&etclave.equals("")&&etNombreUsusario.equals("")&&etApellidoUsusario.equals("")
                 &&etTelefonoUsusario.equals("")&&etEmailUsusario.equals("")&&etVehiculo.equals("")&&etModelo.equals("")&&etPatente.equals("")){
@@ -56,21 +56,16 @@ public class RegistrarDatos extends AppCompatActivity {
     }
     //-----------metodo encriptar contraseña-----------
     public static String encriptar(String etclave) throws Exception{
-        //Instancia del Generador de llaves tipo AES
         KeyGenerator keyGenerator = KeyGenerator.getInstance(AES);
         keyGenerator.init(128);
-        //Instanciamos una llave secreta
         SecretKey secretKey = keyGenerator.generateKey();
-        //codificamos la llave en bytes
 
         byte[] bytesSecretKey = secretKey.getEncoded();
-        //Construimos una clave secreta indicandole que es de tipo AES
+
         SecretKeySpec secretKeySpec = new SecretKeySpec(bytesSecretKey, AES);
-        //Instanciamos un objeto de cifrado de tipo AES
         Cipher cipher = Cipher.getInstance(AES);
-        //Inicializamos el sistema de cifrado en modo Encriptacion con nuestra clave que hemos creado antes
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-        //Procedemos a Encriptar el mensaje
+
         byte[] mensajeEncritado = cipher.doFinal(etclave.getBytes());
         Log.d("TAG", new String(etclave));
 
@@ -119,6 +114,7 @@ public class RegistrarDatos extends AppCompatActivity {
         values1.put("apellido", apellido);
         values1.put("telefono", telefono);
         values1.put("email", email);
+
 
         db.insert("clientes", null, values1);
 
