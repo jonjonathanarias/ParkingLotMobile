@@ -20,6 +20,8 @@ import javax.crypto.spec.SecretKeySpec;
 public class RegistrarDatos extends AppCompatActivity {
 
     String Title="Registro de Usuarios";
+    String claveEncriptada= null;
+    String CLAVE_GENERAL="estornudo";
     EditText etUsuario, etclave, etNombreUsusario, etApellidoUsusario, etTelefonoUsusario, etEmailUsusario, etVehiculo, etModelo, etPatente;
 
     private static final String AES= "AES";
@@ -40,11 +42,6 @@ public class RegistrarDatos extends AppCompatActivity {
         etModelo=(EditText) findViewById(R.id.etModelo);
         etPatente=(EditText) findViewById(R.id.etPatente);
 
-        try{
-            encriptar(etclave.getText().toString());
-        } catch (Exception e){
-
-        }
 
     }
     //-----------metodo vara validar si el campo esta vacio------------
@@ -93,10 +90,12 @@ public class RegistrarDatos extends AppCompatActivity {
         String nombreUsuario=etUsuario.getText().toString();
         String claveUsuario=etclave.getText().toString();
 
+        BCrypt c = new BCrypt();
+
         ContentValues values= new ContentValues();
 
         values.put("nombreusuario", nombreUsuario);
-        values.put("claveusuario", claveUsuario);
+        values.put("claveusuario", c.encriptar(claveUsuario));
         System.out.println(nombreUsuario);
         System.out.println(claveUsuario);
 

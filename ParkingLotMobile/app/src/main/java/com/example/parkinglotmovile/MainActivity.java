@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
+    String CLAVE_GENERAL="estornudo";
 
     TextView tv_registrar;
 
@@ -48,18 +49,23 @@ public class MainActivity extends AppCompatActivity {
         DBAyuda admin = new DBAyuda(this, "ParkingLotMobile",null,1);
         SQLiteDatabase db=admin.getWritableDatabase();
 
+        BCrypt c =new BCrypt();
+        //Encrypter c =new Encrypter();
+
         String usuario=et1.getText().toString();
-        String contraseña=et2.getText().toString();
+        String contrasenia=et2.getText().toString().trim();
+
+
 
         fila=db.rawQuery("select nombreUsuario,claveUsuario from usuarios where nombreUsuario='"+
-                usuario+"' and claveUsuario='"+contraseña+"'",null);
+                usuario+"'",null);
 
         try {
             if (fila.moveToFirst()){
                 String usua=fila.getString(0);
-                String clav=fila.getString(1);
+                String clav=fila.getString(1).trim();
 
-                if (usuario.equals(usua)&&contraseña.equals(clav)){
+                if (usuario.equals(usua)&& c.verificarPassword (contrasenia, clav)){
                     Intent ven=new Intent(this, PrincipalMenu.class );
                     ven.putExtra("usuario", usuario);
                     startActivityForResult(ven, 1234);
@@ -68,9 +74,13 @@ public class MainActivity extends AppCompatActivity {
                     et2.setText("");
 
                 }
+                else {
+                    Toast toast=Toast.makeText(this, "Contraseña incorrecta.", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
             else {
-                Toast toast=Toast.makeText(this, "Datos incorrectos", Toast.LENGTH_SHORT);
+                Toast toast=Toast.makeText(this, "Ususario inexistente.", Toast.LENGTH_SHORT);
                 toast.show();
             }
         }
